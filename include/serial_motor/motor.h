@@ -1,5 +1,4 @@
 #pragma once
-#include "serial/serial.h"
 #include <string>
 #include <vector>
 #include <functional>

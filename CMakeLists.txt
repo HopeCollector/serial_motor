@@ -1,21 +1,18 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(serial_motor)
 
-add_subdirectory(3rdpart/serial)
-
-add_library(${PROJECT_NAME} INTERFACE)
-add_dependencies(${PROJECT_NAME} serial)
+find_package(serial REQUIRED)
+add_library(${PROJECT_NAME} STATIC src/RMD.cpp)
 target_include_directories(
     ${PROJECT_NAME}
-    INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-              $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+    PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+           $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+    PRIVATE ${SERIAL_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME}
-  INTERFACE
-    serial
-)
+  PRIVATE ${SERIAL_LIBRARIES})
 
 add_executable(motor_demo src/motor.cpp)
-add_dependencies(motor_demo ${PROJECT_NAME} serial)
+add_dependencies(motor_demo ${PROJECT_NAME})
 target_include_directories(motor_demo PRIVATE include)
 target_link_libraries(motor_demo PRIVATE ${PROJECT_NAME})
 
