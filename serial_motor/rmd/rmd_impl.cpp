@@ -99,18 +99,18 @@ bool rmd_impl::more(double degree, double speed) {
 }
 
 std::optional<double> rmd_impl::cur_pose() {
-  constexpr int rev_len = 8;
+  constexpr int rev_len = 14;
   if (is_busy_)
     return {};
   is_busy_ = true;
   double angle = 600.0;
-  if ((*cmder_)[cmd::rmd::IDX_CMD] != cmd::rmd::R_SINGALLOOPANG) {
-    (*cmder_).init(cmd::rmd::R_SINGALLOOPANG).build();
+  if ((*cmder_)[cmd::rmd::IDX_CMD] != cmd::rmd::R_MULTILOOPANG) {
+    (*cmder_).init(cmd::rmd::R_MULTILOOPANG).build();
   }
   sender_->write((*cmder_));
   buffer_.clear();
   auto ret = sender_->read(buffer_, rev_len);
-  auto tmp = reinterpret_cast<uint16_t *>(&(buffer_[cmd::rmd::IDX_DATA_START]));
+  auto tmp = reinterpret_cast<int64_t *>(&(buffer_[cmd::rmd::IDX_DATA_START]));
   angle = (static_cast<double>(*tmp)) / 100.0;
   is_busy_ = false;
   return ret == rev_len ? angle : std::optional<double>{};
