@@ -27,7 +27,8 @@ int main(int argc, char **argv) {
     m->pause();
   } else if (args[0] == "-g") {
     // auto start = std::chrono::system_clock::now();
-    // for (size_t i = 0; i < 1000; i++) {
+    // for (size_t i = 0; i < 1000; i++)
+    // {
     //   // std::cout << m->cur_pose().value_or(0.0) << std::endl;
     //   m->cur_pose();
     // }
