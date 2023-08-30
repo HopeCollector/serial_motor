@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "serial_motor/RMDS.h"
+#include "serial_motor/types/rmd.hpp"
 
 int main(int argc, char** argv) {
   std::string dev("");
@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
     exit(-1);
   };
 
-  Motor::RMDS m(dev, 1);
+  smotor::rmd m(dev, 1);
 
   std::vector<double> params;
   std::vector<std::string> args;
@@ -29,21 +29,11 @@ int main(int argc, char** argv) {
   }
 
   if (args[0] == "-t") {
-    if (args.size() == 2)
-      m.rotateTo(std::stod(args[1]));
-    else
-      m.rotateTo(std::stod(args[1]), std::stod(args[2]));
+      m.to(std::stod(args[1]), std::stod(args[2]));
   } else if (args[0] == "-m") {
-    if (args.size() == 2)
-      m.rotateMore(std::stod(args[1]));
-    else
-      m.rotateMore(std::stod(args[1]), std::stod(args[2]));
+      m.more(std::stod(args[1]), std::stod(args[2]));
   } else if (args[0] == "-r") {
-    if (args.size() == 2)
       m.rotate(std::stod(args[1]));
-    else
-      m.rotate();
-    std::cout << "run" << std::endl;
   } else if (args[0] == "-p") {
     m.pause();
   } else if (args[0] == "-g") {
@@ -56,19 +46,7 @@ int main(int argc, char** argv) {
     // auto time = std::chrono::duration<double>(end - start).count();
     // std::cout << "total cost: " << time << std::endl;
     // std::cout << "echo freq: " << 1000 / time << "hz" << std::endl;
-    std::cout << m.getCurrentPose() << std::endl;
-  } else if (args[0] == "-mt") {
-    if (args.size() == 2)
-      m.rotateMTo(std::stod(args[1]));
-    else
-      m.rotateMTo(std::stod(args[1]), std::stod(args[2]));
-  } else if (args[0] == "-mm") {
-    if (args.size() == 2)
-      m.rotateMMore(std::stod(args[1]));
-    else
-      m.rotateMMore(std::stod(args[1]), std::stod(args[2]));
-  } else if (args[0] == "-mg") {
-    std::cout << m.getCurrentMPose() << std::endl;
+    std::cout << m.cur_pose().value_or(0.0) << std::endl;
   }
 
   return 0;

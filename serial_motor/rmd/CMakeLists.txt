@@ -1,6 +1,9 @@
+find_package(serial REQUIRED)
 add_library(rmd rmd.cpp rmd_impl.cpp)
-target_link_libraries(rmd PRIVATE serial)
-target_include_directories(rmd PRIVATE ${serial_INCLUDE_PATH})
+target_include_directories(rmd 
+  PRIVATE ${PRIVATE_INCLUDE_DIR}
+)
+target_link_libraries(rmd PRIVATE serial::serial)
 
 install(
   TARGETS rmd

@@ -1,8 +1,11 @@
 add_subdirectory(rmd)
 
-add_library(${PROJECT_NAME} INTERFACE)
-add_dependencies(${PROJECT_NAME} rmd)
-target_link_libraries(${PROJECT_NAME} INTERFACE rmd)
+add_library(${PROJECT_NAME} motor.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE rmd)
+target_include_directories(${PROJECT_NAME}
+  PRIVATE ${PRIVATE_INCLUDE_DIR}
+  PUBLIC  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 
 install(
   TARGETS ${PROJECT_NAME}

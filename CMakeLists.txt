@@ -1,11 +1,8 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(serial_motor)
-
 include(GNUInstallDirs)
 
-add_subdirectory(3rdpart)
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} include)
+set(PRIVATE_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_subdirectory(serial_motor)
 
 install(
