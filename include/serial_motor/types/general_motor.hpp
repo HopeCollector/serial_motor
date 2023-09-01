@@ -1,10 +1,14 @@
 #pragma once
 #include <optional>
+#include <memory>
 
 namespace smotor {
 class motor {
 public:
-  virtual ~motor(){};
+  using ptr = std::shared_ptr<motor>;
+  using const_ptr = std::shared_ptr<const motor>;
+
+  virtual ~motor(){}
 
   /**
    * @brief make the motor rotate with the specific speed
